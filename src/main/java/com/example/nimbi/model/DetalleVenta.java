@@ -25,5 +25,6 @@ public class DetalleVenta {
     @JoinColumn(name = "idproducto", referencedColumnName = "idproducto")
     private Producto producto;
 
+    @Column(name = "preciounidad")
     private Double precioUnidad;
 }

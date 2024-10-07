@@ -7,5 +7,7 @@ import lombok.Data;
 @AllArgsConstructor
 public class DetalleCantidadProductoVentaDTO {
     private Long idDetalleProducto; // ID del detalle del producto
+    private String nombreProducto; // nombre del producto
     private Integer cantidad; // Cantidad de productos que se están comprando
+    private Double precioUnidad;
 }

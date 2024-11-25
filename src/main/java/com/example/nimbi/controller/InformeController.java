@@ -36,9 +36,7 @@ public class InformeController {
 
     @GetMapping("/organizaciones")
     public ResponseEntity<List<String>> getOrganizaciones() {
-        // Aquí simplemente puedes devolver una lista estática de las organizaciones
-        // disponibles
-        List<String> organizaciones = List.of("Organización A", "Organización B");
+        List<String> organizaciones = informeService.obtenerOrganizaciones();
         return ResponseEntity.ok(organizaciones);
     }
 }

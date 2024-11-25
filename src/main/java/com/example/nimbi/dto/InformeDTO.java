@@ -8,6 +8,16 @@ public class InformeDTO {
     private Integer productosVendidos;
     private Double totalVenta;
     private int ventasTotales;
+    private Double utilidad;
+
+    // Constructor
+    public InformeDTO(LocalDate fecha, int productosVendidos, double totalVenta, int ventasTotales, double utilidad) {
+        this.fecha = fecha;
+        this.productosVendidos = productosVendidos;
+        this.totalVenta = totalVenta;
+        this.ventasTotales = ventasTotales;
+        this.utilidad = utilidad;
+    }
 
     // Getters y setters
     public LocalDate getFecha() {
@@ -48,5 +58,13 @@ public class InformeDTO {
 
     public void setVentasTotales(int ventasTotales) {
         this.ventasTotales = ventasTotales;
+    }
+
+    public Double getUtilidad() {
+        return utilidad;
+    }
+
+    public void setUtilidad(Double utilidad) {
+        this.utilidad = utilidad;
     }
 }

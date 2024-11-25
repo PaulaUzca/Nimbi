@@ -1,7 +1,10 @@
 package com.example.nimbi.service;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,20 +24,35 @@ public class InformeService {
         this.ventaRepository = ventaRepository;
     }
 
+    public List<String> obtenerOrganizaciones() {
+        // Lógica para obtener las organizaciones según las bases de datos existentes.
+        return List.of("Organización A", "Organización B"); // Cambiar esto por la lógica real.
+    }
+
     public List<InformeDTO> generarInforme(List<String> organizaciones, LocalDate fechaInicial, LocalDate fechaFinal) {
-        if (organizaciones.contains("Organización A")) {
+        if (!organizaciones.isEmpty()) {
             List<Venta> ventas = ventaRepository.findByFechaBetween(fechaInicial, fechaFinal);
-            return ventas.stream().map(venta -> {
-                InformeDTO informe = new InformeDTO();
-                informe.setFecha(venta.getFecha());
-                informe.setTotalVenta(venta.getTotal());
-                informe.setProductosVendidos(venta.getDetallesVenta().size());
-                informe.setVentasTotales(ventas.size());
+            return ventas.stream().collect(Collectors.groupingBy(Venta::getFecha))
+                    .entrySet().stream()
+                    .map(entry -> {
+                        LocalDate fecha = entry.getKey();
+                        List<Venta> ventasPorDia = entry.getValue();
 
-                return informe;
-            }).collect(Collectors.toList());
+                        int productosVendidos = ventasPorDia.stream()
+                                .mapToInt(venta -> venta.getDetallesVenta().size())
+                                .sum();
+
+                        double totalVenta = ventasPorDia.stream()
+                                .mapToDouble(Venta::getTotal)
+                                .sum();
+
+                        int ventasTotales = ventasPorDia.size();
+
+                        double utilidad = totalVenta * 0.20;
+
+                        return new InformeDTO(fecha, productosVendidos, totalVenta, ventasTotales, utilidad);
+                    }).collect(Collectors.toList());
         }
-
         return List.of();
     }
 }

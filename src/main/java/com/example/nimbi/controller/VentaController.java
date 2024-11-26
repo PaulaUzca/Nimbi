@@ -75,6 +75,14 @@ public class VentaController {
         }
     }
 
+    // Consultar ventas por id del cliente
+    @GetMapping("/cliente/{idCliente}")
+    public ResponseEntity<List<VentaDTO>> consultarPorIdCliente(
+            @PathVariable Long idCliente){
+        List<VentaDTO> ventas = ventaService.consultarVentasPorIdCliente(idCliente);
+        return ResponseEntity.ok(ventas);
+    }
+
     // Method to convert String to LocalDate
     private LocalDate convertStringToLocalDate(String dateString) {
         // Specify the date format you expect, e.g., "yyyy-MM-dd"

@@ -95,6 +95,21 @@ public class VentaService {
                 .collect(Collectors.toList());
     }
 
+    /**
+     * Consultar todas las ventas de un cliente
+     *
+     * @param idCliente long
+     * @return List<Venta> lista de ventas
+     */
+    public List<VentaDTO> consultarVentasPorIdCliente(Long idCliente) {
+
+        Cliente cliente = clienteRepository.findById(idCliente).orElseThrow(() -> new IllegalArgumentException("Cliente no encontrado"));
+
+        List<Venta> ventas = ventaRepository.findAllByCliente(cliente);
+        return ventas.isEmpty() ? Collections.emptyList() : ventas.stream()
+                .map(this::ventaDTOCompleto)
+                .collect(Collectors.toList());
+    }
 
 
 
@@ -142,7 +157,7 @@ public class VentaService {
 
     }
 
-    /** Calcular total asumiento que todos los productos valoen 1.0$
+    /** Calcular total asumiento que todos los productos valor en 1.0$
      * @param detalleCantidadProductoVentaDTOList
      * @return
      */

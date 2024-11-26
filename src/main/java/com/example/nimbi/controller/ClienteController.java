@@ -4,6 +4,7 @@ import com.example.nimbi.model.Cliente;
 import com.example.nimbi.service.ClienteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -19,5 +20,10 @@ public class ClienteController {
     @GetMapping
     public List<Cliente> obtenerClientes() {
         return clienteService.obtenerTodosLosClientes();
+    }
+
+    @GetMapping("/suggestion/{nombre}")
+    public List<Cliente> obtenerClientesPorNombre(@PathVariable String nombre) {
+        return clienteService.buscarClientePorNombre(nombre);
     }
 }

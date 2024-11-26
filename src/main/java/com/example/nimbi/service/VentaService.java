@@ -8,6 +8,9 @@ import com.example.nimbi.mapper.VentaMapper;
 import com.example.nimbi.model.*;
 import com.example.nimbi.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -109,6 +112,21 @@ public class VentaService {
         return ventas.isEmpty() ? Collections.emptyList() : ventas.stream()
                 .map(this::ventaDTOCompleto)
                 .collect(Collectors.toList());
+    }
+
+
+
+    /**
+     * Consultar todas las ventas por nombre del cliente
+     *
+     * @param nombreCliente long
+     * @return List<Venta> lista de ventas
+     */
+    public List<VentaDTO> consultarVentasPorNombreCliente(String nombreCliente) {
+        Pageable pageable = PageRequest.of(0, 20); // Página 0, tamaño 20
+
+        Page<Venta> page = ventaRepository.findVentaByNombreCliente(nombreCliente, pageable);
+        return page.getContent().stream().map(this::ventaDTOCompleto).collect(Collectors.toList());
     }
 
 

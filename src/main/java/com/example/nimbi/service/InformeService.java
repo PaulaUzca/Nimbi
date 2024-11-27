@@ -1,10 +1,7 @@
 package com.example.nimbi.service;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,10 +23,13 @@ public class InformeService {
 
     public List<String> obtenerOrganizaciones() {
         // Lógica para obtener las organizaciones según las bases de datos existentes.
-        return List.of("Organización A", "Organización B"); // Cambiar esto por la lógica real.
+        return List.of("Nimbi", "Comida rápida"); // Cambiar esto por la lógica real.
     }
 
     public List<InformeDTO> generarInforme(List<String> organizaciones, LocalDate fechaInicial, LocalDate fechaFinal) {
+        if (organizaciones.contains("Comida rápida")) {
+            return List.of();
+        }
         if (!organizaciones.isEmpty()) {
             List<Venta> ventas = ventaRepository.findByFechaBetween(fechaInicial, fechaFinal);
             return ventas.stream().collect(Collectors.groupingBy(Venta::getFecha))
